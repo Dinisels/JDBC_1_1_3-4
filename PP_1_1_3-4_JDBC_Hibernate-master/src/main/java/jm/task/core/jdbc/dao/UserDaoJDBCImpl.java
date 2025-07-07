@@ -24,8 +24,18 @@ public class UserDaoJDBCImpl implements UserDao {
             )
             """;
 
+
         try (Connection connection = Util.getConnection(); Statement statement = connection.createStatement()) {
-            statement.execute(sql);
+
+           ResultSet rs = statement.executeQuery("SHOW TABLES LIKE 'users'");
+
+           if (!rs.next()){
+               statement.execute(sql);
+           }else {
+               System.out.println("Таблица уже креатнута");
+           }
+
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -38,7 +48,12 @@ public class UserDaoJDBCImpl implements UserDao {
                 """;
 
         try (Connection connection = Util.getConnection(); Statement statement = connection.createStatement()) {
-            statement.execute(sql);
+            ResultSet rs = statement.executeQuery("SHOW TABLES LIKE 'users'");
+            if (rs.next()){
+                statement.execute(sql);
+            }else {
+                System.out.println("Таблица уже креатнута");
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -118,6 +133,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
     }
 
+    //оставил НО убрал ее из UserService
     @Override
     public boolean tableExists(String tableName) {
         String sql = "SHOW TABLES LIKE ?";
