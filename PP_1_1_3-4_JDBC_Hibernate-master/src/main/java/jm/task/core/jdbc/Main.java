@@ -49,7 +49,7 @@ public class Main {
         System.out.println(userService.getAllUsers());
 
         //Удаление таблицы
-       //userService.dropUsersTable();
+        //userService.dropUsersTable();
 
 
     }
